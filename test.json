@@ -1,0 +1,9 @@
+{
+    "url": "https://jumpy-floor.surge.sh/test1.yaml",
+    "urls": [
+        {
+            "url": "https://jumpy-floor.surge.sh/test2.yaml",
+            "name": "Foo"
+        }
+    ]
+}
