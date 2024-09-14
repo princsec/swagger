@@ -1,0 +1,272 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "DSA File Upload Api",
+        "contact": {
+            "name": "DSA_Leads",
+            "email": "DSA_Leads@Dell.com"
+        },
+        "version": "v1.0.0"
+    },
+    "paths": {
+        "/api/v1/avscanner/fileUploads": {
+            "post": {
+                "tags": [
+                    "FileUpload"
+                ],
+                "summary": "FileUpload",
+                "description": "Request description\r\n\r\n       {\r\n         \"SourceApplicationName\": \"string\",     \r\n         \"TransactionId\": \"string\",             \r\n         \"Feature\": \"string\",\r\n         \"Files\":\"IFormFile[]\"\r\n       }",
+                "parameters": [
+                    {
+                        "name": "x-dell-dais-sa-subscriber-id",
+                        "in": "header",
+                        "schema": {
+                            "type": "string",
+                            "default": "CD90090F-A224-4FFA-8389-F377971F04C5"
+                        }
+                    },
+                    {
+                        "name": "x-dell-user-email",
+                        "in": "header",
+                        "description": "Email needed for OAuthCC Authorization",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "Context",
+                                    "Files"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "Context": {
+                                        "type": "object",
+                                        "properties": {
+                                            "SourceApplicationName": {
+                                                "type": "string"
+                                            },
+                                            "TransactionId": {
+                                                "type": "string"
+                                            },
+                                            "Feature": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "description": "Context"
+                                    },
+                                    "Files": {
+                                        "type": "string",
+                                        "description": "Upload File",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Dell.DSA.AvScanner.ScanUploadResponse"
+                                },
+                                "example": {
+                                    "filesUploaded": [
+                                        "file1.pdf",
+                                        "file2.pdf"
+                                    ],
+                                    "scanResult": "Scanned Successfully",
+                                    "messages": "Files uploaded successfully.",
+                                    "errors": {
+                                        "message": null,
+                                        "stackTrace": null,
+                                        "statusCode": 0
+                                    }
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Dell.DSA.AvScanner.ScanUploadResponse"
+                                },
+                                "example": {
+                                    "filesUploaded": [
+                                        "file1.pdf",
+                                        "file2.pdf"
+                                    ],
+                                    "scanResult": "Scanned Successfully",
+                                    "messages": "Files uploaded successfully.",
+                                    "errors": {
+                                        "message": null,
+                                        "stackTrace": null,
+                                        "statusCode": 0
+                                    }
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Dell.DSA.AvScanner.ScanUploadResponse"
+                                },
+                                "example": {
+                                    "filesUploaded": [
+                                        "file1.pdf",
+                                        "file2.pdf"
+                                    ],
+                                    "scanResult": "Scanned Successfully",
+                                    "messages": "Files uploaded successfully.",
+                                    "errors": {
+                                        "message": null,
+                                        "stackTrace": null,
+                                        "statusCode": 0
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Dell.DSA.AvScanner.ScanUploadResponseBadRequest"
+                                },
+                                "example": {
+                                    "filesUploaded": [],
+                                    "scanResult": "Not Scanned",
+                                    "messages": "Upload Aborted, Exceeding single file size limit.  File:PDFERROR.pdf Allowed File Size: 10 MB.",
+                                    "errors": {
+                                        "message": null,
+                                        "stackTrace": null,
+                                        "statusCode": 0
+                                    }
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Dell.DSA.AvScanner.ScanUploadResponseBadRequest"
+                                },
+                                "example": {
+                                    "filesUploaded": [],
+                                    "scanResult": "Not Scanned",
+                                    "messages": "Upload Aborted, Exceeding single file size limit.  File:PDFERROR.pdf Allowed File Size: 10 MB.",
+                                    "errors": {
+                                        "message": null,
+                                        "stackTrace": null,
+                                        "statusCode": 0
+                                    }
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Dell.DSA.AvScanner.ScanUploadResponseBadRequest"
+                                },
+                                "example": {
+                                    "filesUploaded": [],
+                                    "scanResult": "Not Scanned",
+                                    "messages": "Upload Aborted, Exceeding single file size limit.  File:PDFERROR.pdf Allowed File Size: 10 MB.",
+                                    "errors": {
+                                        "message": null,
+                                        "stackTrace": null,
+                                        "statusCode": 0
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error!"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Dell.DSA.AvScanner.ErrorDetails": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "stackTrace": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "statusCode": {
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "Dell.DSA.AvScanner.ScanUploadResponse": {
+                "type": "object",
+                "properties": {
+                    "filesUploaded": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "scanResult": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "messages": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "errors": {
+                        "$ref": "#/components/schemas/Dell.DSA.AvScanner.ErrorDetails"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "Dell.DSA.AvScanner.ScanUploadResponseBadRequest": {
+                "type": "object",
+                "properties": {
+                    "filesUploaded": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "scanResult": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "messages": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "errors": {
+                        "$ref": "#/components/schemas/Dell.DSA.AvScanner.ErrorDetails"
+                    }
+                },
+                "additionalProperties": false
+            }
+        },
+        "securitySchemes": {
+            "jwt_auth": {
+                "type": "apiKey",
+                "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    },
+    "security": [
+        {
+            "jwt_auth": []
+        }
+    ]
+}
