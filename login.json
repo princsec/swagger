@@ -1,0 +1,39 @@
+openapi: 3.0.1
+info:
+  title: Example API
+  version: 1.0.0
+paths:
+  /auth/login:
+    post:
+      summary: Authenticate user and return a token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Successful authentication
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: JWT token
+        '401':
+          description: Unauthorized
+securitySchemes:
+  bearerAuth:
+    type: http
+    scheme: bearer
+    bearerFormat: JWT
+security:
+  - bearerAuth: []
