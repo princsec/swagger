@@ -1,13 +1,55 @@
 openapi: 3.0.0
----
-# 1) Define the security scheme type (HTTP bearer)
+info:
+  title: API with Bearer Authentication
+  version: 1.0.0
+  description: This API uses JWT Bearer Authentication to secure endpoints.
+  
+# 1) Define the security scheme (HTTP Bearer)
 components:
   securitySchemes:
-    bearerAuth: # arbitrary name for the security scheme
+    bearerAuth:  # arbitrary name for the security scheme
       type: http
       scheme: bearer
-      bearerFormat: JWT # optional, arbitrary value for documentation purposes
+      bearerFormat: JWT  # optional, for documentation purposes
 
-# 2) Apply the security globally to all operations
+  # 2) Define reusable response for Unauthorized Error
+  responses:
+    UnauthorizedError:
+      description: Access token is missing or invalid
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: "Unauthorized. Invalid or missing token."
+
+# 3) Apply the security globally to all operations
 security:
-  - bearerAuth: [] # use the same name as above
+  - bearerAuth: []  # Global security for all endpoints
+
+paths:
+  /something:
+    get:
+      summary: A secure endpoint that requires authentication
+      security:
+        - bearerAuth: []  # Apply the security scheme to this specific operation
+      responses:
+        '200':
+          description: Success
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'  # Reuse Unauthorized error response
+        '403':
+          description: Forbidden - Token is valid but doesn't have permission to access the resource
+    post:
+      summary: Another secured endpoint with authentication
+      security:
+        - bearerAuth: []  # Apply security for POST method
+      responses:
+        '201':
+          description: Resource created successfully
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          description: Forbidden - Token is valid but doesn't have permission to access the resource
